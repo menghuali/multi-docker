@@ -1,0 +1,22 @@
+language: generic
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t bluealoha/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true bluealoha/react-test npm test
+
+after_success:
+  - docker build -t bluealoha/multi-client ./client
+  - docker build -t bluealoha/multi-nginx ./nginx
+  - docker build -t bluealoha/multi-server ./server
+  - docker build -t bluealoha/multi-worker ./worker
+  # Log in docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push the images to docker hub
+  - docker push bluealoha/multi-client
+  - docker push bluealoha/multi-nginx
+  - docker push bluealoha/multi-server
+  - docker push bluealoha/multi-worker
