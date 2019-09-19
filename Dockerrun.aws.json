@@ -5,24 +5,28 @@
             "name": "client",
             "image": "bluealoha/multi-client",
             "hostname": "client",
-            "essential": false
+            "essential": false,
+            "memoryReservation": 100
         },
         {
             "name": "server",
             "image": "bluealoha/multi-server",
             "hostname": "api",
-            "essential": false
+            "essential": false,
+            "memoryReservation": 100
         },
         {
             "name": "worker",
             "image": "bluealoha/multi-worker",
             "hostname": "worker",
-            "essential": false
+            "essential": false,
+            "memoryReservation": 100
         },
         {
             "name": "nginx",
             "image": "bluealoha/multi-nginx",
             "essential": true,
+            "memoryReservation": 100,
             "portMappings": [
                 {
                     "hostPort": 80,
